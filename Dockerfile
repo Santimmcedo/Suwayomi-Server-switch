@@ -12,7 +12,7 @@ FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 
 # Copia apenas o arquivo .jar final (sem o WebUI e as outras coisas que removemos)
-COPY --from=build /app/server/build/libs/*-all.jar /app/suwayomi-lite.jar
+COPY --from=build /app/server/build/*.jar /app/
 
 EXPOSE 4567
 
@@ -20,5 +20,5 @@ EXPOSE 4567
 RUN mkdir -p /home/suwayomi/.local/share/Tachidesk
 
 # Inicia o servidor forçando o diretório de dados para a pasta correta do Render
-CMD ["java", "-Xmx400m", "-Dsuwayomi.tachidesk.config.server.rootDir=/home/suwayomi/.local/share/Tachidesk", "-jar", "/app/suwayomi-lite.jar"]
+CMD ["sh", "-c", "java -Xmx400m -Dsuwayomi.tachidesk.config.server.rootDir=/home/suwayomi/.local/share/Tachidesk -jar /app/*.jar"]
 
