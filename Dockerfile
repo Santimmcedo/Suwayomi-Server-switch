@@ -1,5 +1,5 @@
 # Stage 1: Construção (Build)
-FROM eclipse-temurin:17-jdk-jammy AS build
+FROM eclipse-temurin:21-jdk-jammy AS build
 WORKDIR /app
 COPY . .
 # Limitamos a memória do Gradle para tentar não estourar o limite de build gratuito do Render
@@ -7,7 +7,7 @@ ENV GRADLE_OPTS="-Xmx1g"
 RUN ./gradlew :server:shadowJar --no-daemon
 
 # Stage 2: Execução Leve (Runtime)
-FROM eclipse-temurin:17-jre-jammy
+FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 
 # Copia apenas o arquivo .jar final (sem o WebUI e as outras coisas que removemos)
