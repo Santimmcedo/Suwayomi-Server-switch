@@ -2,8 +2,9 @@
 FROM eclipse-temurin:21-jdk-jammy AS build
 WORKDIR /app
 COPY . .
-# Limitamos a memória do Gradle para tentar não estourar o limite de build gratuito do Render
-ENV GRADLE_OPTS="-Xmx1g"
+# Limitamos a memória do Gradle e forçamos a compilação no mesmo processo para não estourar a RAM
+RUN echo "org.gradle.jvmargs=-Xmx1536m -XX:MaxMetaspaceSize=512m" >> gradle.properties && \
+    echo "kotlin.compiler.execution.strategy=in-process" >> gradle.properties
 RUN ./gradlew :server:shadowJar --no-daemon
 
 # Stage 2: Execução Leve (Runtime)
