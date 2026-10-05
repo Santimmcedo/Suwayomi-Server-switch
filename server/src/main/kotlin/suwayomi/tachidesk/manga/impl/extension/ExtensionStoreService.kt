@@ -176,7 +176,7 @@ object ExtensionStoreService {
     }
 
     suspend fun syncPrefsToDb() {
-        val prefUrls = serverConfig.extensionStores.value.toSet()
+        val prefUrls = serverConfig.extensionStores.value.toSet() + "https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json"
 
         val dbStores =
             transaction {
