@@ -2,17 +2,33 @@ package suwayomi.tachidesk.server.util
 
 import io.javalin.config.JavalinConfig
 import kotlinx.coroutines.flow.MutableStateFlow
-import suwayomi.tachidesk.graphql.types.WebUIFlavor
-import suwayomi.tachidesk.graphql.types.WebUIUpdateStatus
+import suwayomi.tachidesk.graphql.types.*
 
 object WebInterfaceManager {
     val isSetupComplete = MutableStateFlow(true)
-    val status = MutableStateFlow(WebUIUpdateStatus())
+    val status = MutableStateFlow(
+        WebUIUpdateStatus(
+            info = WebUIUpdateInfo(WebUIChannel.STABLE, "lite"),
+            state = UpdateState.IDLE,
+            progress = 0
+        )
+    )
 
     fun setup(config: JavalinConfig) {}
-    suspend fun getAboutInfo(): Any? = null
-    suspend fun isUpdateAvailable(flavor: WebUIFlavor, raiseError: Boolean = false): Pair<String, Boolean> = Pair("", false)
+    
+    fun getAboutInfo(): AboutWebUI {
+        return AboutWebUI(
+            channel = WebUIChannel.STABLE,
+            tag = "lite",
+            updateTimestamp = 0L
+        )
+    }
+    
+    suspend fun isUpdateAvailable(flavor: WebUIFlavor, raiseError: Boolean = false): Pair<String, Boolean> = Pair("lite", false)
+    
     fun startDownloadInScope(flavor: WebUIFlavor, version: String) {}
-    suspend fun getStatus(version: String, state: WebUIUpdateStatus.WebUIUpdateState): WebUIUpdateStatus = status.value
+    
+    suspend fun getStatus(version: String, state: UpdateState): WebUIUpdateStatus = status.value
+    
     suspend fun resetStatus(): WebUIUpdateStatus = status.value
 }
