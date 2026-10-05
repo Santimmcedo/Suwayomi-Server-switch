@@ -1,12 +1,12 @@
-# Stage 1: ConstruÁ„o (Build)
+# Stage 1: Constru√ß√£o (Build)
 FROM eclipse-temurin:17-jdk-jammy AS build
 WORKDIR /app
 COPY . .
-# Limitamos a memÛria do Gradle para tentar n„o estourar o limite de build gratuito do Render
+# Limitamos a mem√≥ria do Gradle para tentar n√£o estourar o limite de build gratuito do Render
 ENV GRADLE_OPTS="-Xmx1g"
 RUN ./gradlew :server:shadowJar --no-daemon
 
-# Stage 2: ExecuÁ„o Leve (Runtime)
+# Stage 2: Execu√ß√£o Leve (Runtime)
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 
@@ -18,6 +18,6 @@ EXPOSE 4567
 # Cria a pasta de dados do Tachidesk para o Render montar o disco persistente
 RUN mkdir -p /home/suwayomi/.local/share/Tachidesk
 
-# Inicia o servidor
-CMD ["java", "-Xmx400m", "-jar", "/app/suwayomi-lite.jar"]
+# Inicia o servidor for√ßando o diret√≥rio de dados para a pasta correta do Render
+CMD ["java", "-Xmx400m", "-Dsuwayomi.tachidesk.config.server.rootDir=/home/suwayomi/.local/share/Tachidesk", "-jar", "/app/suwayomi-lite.jar"]
 
