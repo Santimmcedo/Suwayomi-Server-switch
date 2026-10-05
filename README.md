@@ -1,3 +1,19 @@
+# Suwayomi-Server (Switch Lite Edition)
+
+Esta é uma versão modificada e extremamente otimizada do **Suwayomi-Server**, criada especificamente para rodar como uma API leve no plano gratuito do [Render.com](https://render.com), servindo de backend para aplicativos de leitura (como no Nintendo Switch).
+
+### ? O que mudou nesta versão Lite?
+Para economizar memória RAM (mantendo-se abaixo do limite de 512MB do Render) e acelerar a inicialização, vários recursos "pesados" voltados para uso em computador (desktop) foram removidos:
+
+- ??? **Interface Web (WebUI) Removida:** O servidor agora atua 100% como uma API invisível. Ele não baixa nem processa a interface web.
+- ??? **CEF (Chromium) Removido:** Não há mais downloads pesados de navegadores em segundo plano no servidor.
+- ??? **Recursos de Desktop:** SystemTray (ícone ao lado do relógio) e Discord RPC foram completamente desativados.
+- ?? **Keiyoushi Injetado Nativamente:** O repositório de extensões do Keiyoushi já vem "impresso" diretamente no código-fonte em Kotlin. Você não precisa usar painéis para adicionar a fonte; ao ligar o servidor pela primeira vez, as extensões já estarão prontas.
+- ?? **Dockerfile Otimizado para o Render:** O limite do Java foi cravado em 400MB de RAM (\-Xmx400m\) para evitar crashes, e a estrutura de compilação (\multi-stage\) foi escrita do zero para ser leve.
+
+---
+*(O Readme original do projeto Tachidesk/Suwayomi encontra-se abaixo para referência)*
+
 
 | Build                                                                                         | Stable                                                                                                                                                                   | Preview                                                                                                                                                                                                                                           | Support Server |
 |-----------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
@@ -244,3 +260,4 @@ Changes to both codebases is licensed under `MPL v. 2.0` as the rest of this pro
 ## Disclaimer
 
 The developer of this application does not have any affiliation with the content providers available.
+
